@@ -1,0 +1,20 @@
+spring:
+  server.port: 8081
+  application-name: "sks"
+  kafka:
+# List of comma separated hostname:ports brokers
+    bootstrap-servers: "localhost:9092"
+# Id used by the kafka application to identify itself, if not setted application-name used
+    client-id: "streaming-etl"
+    streams:
+      properties:
+# Server and port on which this application can be reached via REST by others applications
+        application.server: "localhost:8081"
+    consumer:
+# Group identifier for consumer and producers, if not set, the application-name is used
+      group-id: "streaming-etl-group"
+    producer:
+      group-id: "streaming-etl-group"
+# Server port, must be the same written on spring.kafka.streams.properties.application.server
+server:
+  port: 8081
