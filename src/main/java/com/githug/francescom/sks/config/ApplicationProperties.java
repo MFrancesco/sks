@@ -23,7 +23,7 @@ public class ApplicationProperties {
 
   @NotEmpty
   @NotNull
-  @Value("${spring.application-name}")
+  @Value("${spring.application-name:}")
   String applicationName;
 
   @NotNull
@@ -70,9 +70,11 @@ public class ApplicationProperties {
   @PostConstruct
   private void beanInitialization() {
     if (!streamApplicationServer.contains(":"+serverPort)){
-      logger.warn("Wrong configuration, Looks like spring.kafka.streams.properties.application.server "
+      throw new IllegalStateException("Wrong configuration, Looks like spring.kafka.streams.properties.application.server "
           + "does not contains the server.port parameter");
     }
+    if (applicationName.isEmpty())
+      throw new IllegalStateException("Cannot have empty name");
   }
 
 }
